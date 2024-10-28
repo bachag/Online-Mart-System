@@ -8,7 +8,7 @@ class UserCreate(BaseModel):
 class UserRead(BaseModel):
     id:int
     email:str
-class UserDateCreate(BaseModel):
+class UserDataCreate(BaseModel):
     data:str
 class UserDataRead(BaseModel):
     id:int

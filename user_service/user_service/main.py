@@ -56,13 +56,13 @@ def login_user(request:Request,  form_data:OAuth2PasswordRequestForm = Depends()
     if not user:
         raise HTTPException(status_code=400, detail="Invalid Credential")
     access_token = create_access_token(data={"sub":user.email})
-    return {"acess_token":access_token,"token_type":"bearer"}
+    return {"access_token":access_token,"token_type":"bearer"}
 @app.post("/refresh",response_model=TokenResponse)
 def refresh_token(token:TokenData,db:Session=Depends(get_session)):
     new_token = refresh_access_token(token=token.access_token,db=db)
     if not new_token:
         raise HTTPException(status_code=400, detail="Invalid Toekn")
-    return {"acess_token":new_token,"token_type":"bearer"}
+    return {"access_token":new_token,"token_type":"bearer"}
     
 
 
