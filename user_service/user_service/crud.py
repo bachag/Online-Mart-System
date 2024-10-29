@@ -18,8 +18,8 @@ def create_user(session:Session,user:UserCreate)->User:
     session.commit()
     session.refresh(db_user)
     return db_user
-def create_user_data(session:Session,data:UserDataCreate,user:User)->UserData:
-    user_data = UserData(data=data,owner_id=user.id)
+def create_user_data(session: Session, data: UserDataCreate, user: User) -> UserData:
+    user_data = UserData(data=data.data, owner_id=user.id)  # Extract 'data' field from UserDataCreate
     session.add(user_data)
     session.commit()
     session.refresh(user_data)
