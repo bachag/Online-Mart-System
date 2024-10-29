@@ -26,7 +26,7 @@ def create_user_data(session:Session,data:UserDataCreate,user:User)->UserData:
     return user_data
 def authenticate_user(session:Session,email:str,password:str):
     user = get_user_by_email(session,email=email)
-    if not user:
+    if not user or  not verify_password(password,user.hashed_password):
         return None
     return user
 def get_user_data(session:Session,user:User)->List[UserData]:
@@ -39,7 +39,7 @@ def validate_password(password: str) -> bool:
     
 def refresh_access_token(token:str,db:Session)->str:
     try:
-        payload = jwt.decode(token,SECRET_KEY,algorithm=[ALGORITHM])
+        payload = jwt.decode(token,SECRET_KEY,algorithms=[ALGORITHM])
         email:str = payload.get("sub")
         if email is None:
             return None

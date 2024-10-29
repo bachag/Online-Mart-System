@@ -36,7 +36,7 @@ async def register_user(user:UserCreate,db=Depends(get_session)):
         raise HTTPException(status_code=400,detail="Emaill already exist")
     if not validate_password(user.password):
         raise HTTPException(status_code=400,detail="Password doesnjot match criteria")
-    new_user = create_user(session=db,User=user)
+    new_user = create_user(session=db,user=user)
     return new_user
 @app.get("/user/me",response_model=UserRead)
 def read_user_me(current_user:User = Depends(get_current_user)):
