@@ -1,5 +1,5 @@
 from sqlmodel import create_engine, SQLModel, Session
-from product_service import settings
+from order_service import settings
 
 # only needed for psycopg 3 - replace postgresql
 # with postgresql+psycopg in settings.DATABASE_URL

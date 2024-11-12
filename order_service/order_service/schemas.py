@@ -1,13 +1,46 @@
-from sqlmodel import SQLModel,Field
-from typing import Optional
+from sqlmodel import Field, SQLModel
+from typing import List, Optional
 
+class OrderItemBase(SQLModel):
+    product_id: int
+    quantity: int
 
-class ProductBase(SQLModel):
-    name:str
-    description:Optional[str]
-    price:float
-    
-class ProductCreate(ProductBase):
+class OrderItemCreate(OrderItemBase):
     pass
-class ProductRead(ProductBase):
-    id:int = Field(default=None, primary_key=True)
+
+class OrderItemUpdate(SQLModel):
+    id: int
+    product_id: int
+    quantity: int
+
+class OrderCreate(SQLModel):
+    user_id: int
+    items: List[OrderItemCreate]
+    total_price: float
+
+class OrderUpdate(SQLModel):
+    user_id: Optional[int] = None
+    items: Optional[List[OrderItemUpdate]] = None
+    total_price: Optional[float] = None
+
+class OrderList(SQLModel):
+    id: int
+    user_id: int
+    total_price: float
+
+class OrderDetail(SQLModel):
+    id: int
+    user_id: int
+    items: List[OrderItemBase]
+    total_price: float
+
+class OrderResponse(SQLModel):
+    id: int
+    user_id: int
+    items: List[OrderItemBase]
+    total_price: float
+
+# Ensure OrderVerify is defined
+class OrderVerify(SQLModel):
+    user_id: int
+    total_price: float
