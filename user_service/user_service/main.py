@@ -12,6 +12,9 @@ from slowapi import Limiter
 from slowapi.util import get_remote_address
 from typing import List
 import asyncio
+from user_service.kafka.producer import 
+from user_service.kafka.consumer import run_consumer
+
 
 
 limiter = Limiter(key_func=get_remote_address)
@@ -21,7 +24,11 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 @asynccontextmanager
 async def lifespan(app:FastAPI):
     create_db_and_tables()
-    yield
+    consumer_task = create_task(run_consumer())
+    try:
+        yield
+    finally:
+        consumer_task.cancel()
 
 app:FastAPI = FastAPI(lifespan=lifespan)
 
